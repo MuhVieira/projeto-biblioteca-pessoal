@@ -10,22 +10,22 @@ const titulos: string [] = ["Harry Potter e a Pedra Filosofal",
 const autores: string [] = ["J.K. Rowling", "Rick Riordan", "J.R.R Tolkien", "James Clear", "Jojo Moyes"]
 const anos: number [] = [1997, 2005, 1954, 2018, 2012]
 const paginas: number [] = [224, 384, 1216, 320, 368]
-const lido: boolean [] = [true, true, false, true, false]
+const lido: string [] = ["LIDO", "LIDO", "PENDENTE", "LIDO", "PENDENTE"]
 const avaliacoes: number [] = [5, 5, 3, 4, 0]
 
-function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: boolean[], avaliacoes: number[]): void {
+function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]): void {
     console.log("===MINHA BIBLIOTECA===")
     titulos.forEach((titulo, indice) => {
-        console.log(`${indice + 1} ${titulo} - ${autores[indice]} (${anos[indice]}) - ${paginas[indice]} páginas - Lido: ${lido[indice]} - Avaliação: ${avaliacoes[indice]}`)
+        console.log(`${indice + 1} ${titulo} - ${autores[indice]} (${anos[indice]}) - ${paginas[indice]} páginas - ${lido[indice]} - Avaliação: ${avaliacoes[indice]}`)
     })}
 
-    function adicionarLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: boolean[], avaliacoes: number[]): void {
+    function adicionarLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]): void {
         const nome = input('Título do Livro: ');
         const autor = input('Autor: ');
-        const ano = parseInt(input('Ano: '), 10);
-        const paginasLivro = parseInt(input('Páginas: '), 10);
-        const seLido = input('Lido (s/n): ').toLowerCase() === 's';
-        const avaliacao = parseInt(input('Avaliação do Livro: '), 10);
+        const ano = parseInt(input('Ano: '));
+        const paginasLivro = parseInt(input('Páginas: '));
+        const seLido = input('Lido (s/n): ').toLowerCase() === 's' ? 'LIDO' : 'PENDENTE';
+        const avaliacao = parseInt(input('Avaliação do Livro: '));
 
         titulos.push(nome);
         autores.push(autor);
@@ -37,7 +37,7 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         console.log("Livro Adicionado com Sucesso!");
     }
 
-    function removerLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: boolean[], avaliacoes: number[]) {
+    function removerLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
         console.log("Digite o título a ser removido:");
 
         const remover = input('Título: ')
