@@ -6,7 +6,7 @@ const titulos: string [] = ["Harry Potter e a Pedra Filosofal",
     "Percy Jackson e o Ladrão de Raios", 
     "O Senhor dos Anéis", 
     "Hábitos Atômicos", 
-    "Como Eu Era Antes de Você"]
+    "Como Eu Era Antes de Voce"]
 const autores: string [] = ["J.K. Rowling", "Rick Riordan", "J.R.R Tolkien", "James Clear", "Jojo Moyes"]
 const anos: number [] = [1997, 2005, 1954, 2018, 2012]
 const paginas: number [] = [224, 384, 1216, 320, 368]
@@ -125,6 +125,36 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         }
     }
 
+    function totalLivros(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) : number {
+        const total = titulos.length
+        console.log(`Total de livros: ${total}`)
+        return titulos.length;
+    }
+
+    function marcarComoLido(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+    const titulo = input("Digite o título do livro: ");
+    const indice = titulos.indexOf(titulo);
+
+    if (indice === -1) {
+        console.log("Livro não encontrado!");
+        return;
+    }
+
+    let avaliacao: number;
+
+    do {
+        avaliacao = parseInt(input("Digite a avaliação (1 a 5): "));
+        if (avaliacao < 1 || avaliacao > 5) {
+            console.log("Avaliação inválida!");
+        }
+    } while (avaliacao < 1 || avaliacao > 5);
+
+    lido[indice] = "LIDO";
+    avaliacoes[indice] = avaliacao;
+
+    console.log("Livro marcado como lido!");
+}
+
 function menu(): void {
     while (true) {
         console.log("Escolha uma opção abaixo: ")
@@ -135,6 +165,8 @@ function menu(): void {
         console.log("5: Buscar por autor")
         console.log("6: Listar livros lidos")
         console.log("7: Listar livros pendentes")
+        console.log("8: Total de livros")
+        console.log("9: Marcar como lido")
         console.log("0: Sair")
 
         const escolha = input("Opção: ")
@@ -161,6 +193,12 @@ function menu(): void {
                 break;
             case "7":
                 listarPendentes(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "8":
+                totalLivros(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "9":
+                marcarComoLido(titulos, autores, anos, paginas, lido, avaliacoes);
                 break;
             case "0":
                 console.log("Saindo...");
