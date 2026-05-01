@@ -38,7 +38,7 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
     }
 
     function removerLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
-        console.log("Digite o título a ser removido:");
+        console.log("Digite o título a ser removido: ");
 
         const remover = input('Título: ')
         const indice = titulos.indexOf(remover);
@@ -56,27 +56,68 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         }
     }
 
+    function buscarPorTitulo(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
+        console.log("Digite o título do livro:")
+        const buscaPor = input("Título: ")
+
+        for (let i = 0; i < titulos.length; i++) {
+            if (titulos[i]?.includes(buscaPor)) {
+                console.log(`${titulos[i]} - ${autores[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - Avaliação: ${avaliacoes[i]}`)
+                return
+            }
+        }
+    }
+
+    function listarPorAutor(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
+        console.log("Digite o nome do autor:")
+        const nomeAutor = input("Autor: ")
+        
+        const livrosDoAutor = autores.map((autor, indice) => ({ autor, indice }))
+            .filter(item => item.autor.includes(nomeAutor))
+        
+        if (livrosDoAutor.length > 0) {
+            livrosDoAutor.forEach(item => {
+                const i = item.indice
+                console.log(`${titulos[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - Avaliação: ${avaliacoes[i]}`)
+            })
+        } else {
+            console.log("Autor não encontrado")
+        }
+    }
+
 function menu(): void {
     while (true) {
         console.log("Escolha uma opção abaixo: ")
         console.log("1: Exibir Biblioteca")
         console.log("2: Adicionar novo livro")
         console.log("3: Remover livro")
+        console.log("4: Buscar livros")
+        console.log("5: Buscar por autor")
         console.log("0: Sair")
 
         const escolha = input("Opção: ")
 
-        if (escolha === "1") {
-            exibirBiblioteca(titulos, autores, anos, paginas, lido, avaliacoes);
-        } else if (escolha === "2") {
-            adicionarLivro(titulos, autores, anos, paginas, lido, avaliacoes);
-        } else if (escolha === "3") {
-            removerLivro(titulos, autores, anos, paginas, lido, avaliacoes);
-        } else if (escolha === "0") {
-            console.log("Saindo...");
+        switch (escolha) {
+            case "1": 
+                exibirBiblioteca(titulos, autores, anos, paginas, lido, avaliacoes);
             break;
-        } else {
-            console.log("Opção inválida.")
+            case "2":
+                adicionarLivro(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "3":
+                removerLivro(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "4":
+                buscarPorTitulo(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "5":
+                listarPorAutor(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "0":
+                console.log("Saindo...");
+                process.exit();
+            default: 
+                console.log("Opção inválida");
         }
     }
 }
