@@ -11,21 +11,36 @@ const autores: string [] = ["J.K. Rowling", "Rick Riordan", "J.R.R Tolkien", "Ja
 const anos: number [] = [1997, 2005, 1954, 2018, 2012]
 const paginas: number [] = [224, 384, 1216, 320, 368]
 const lido: string [] = ["LIDO", "LIDO", "PENDENTE", "LIDO", "PENDENTE"]
-const avaliacoes: number [] = [5, 5, 3, 4, 0]
+const avaliacoes: number [] = [5, 5, 3, 4, 1]
 
 function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]): void {
     console.log("===MINHA BIBLIOTECA===")
     titulos.forEach((titulo, indice) => {
-        console.log(`${indice + 1} ${titulo} - ${autores[indice]} (${anos[indice]}) - ${paginas[indice]} páginas - ${lido[indice]} - Avaliação: ${avaliacoes[indice]}`)
+        const avaliacaoStr = lido[indice] === 'LIDO' ? `Avaliação: ${avaliacoes[indice]}` : 'Avaliação: N/A';
+        console.log(`${indice + 1} ${titulo} - ${autores[indice]} (${anos[indice]}) - ${paginas[indice]} páginas - ${lido[indice]} - ${avaliacaoStr}`)
     })}
 
     function adicionarLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]): void {
         const nome = input('Título do Livro: ');
         const autor = input('Autor: ');
         const ano = parseInt(input('Ano: '));
-        const paginasLivro = parseInt(input('Páginas: '));
+        let paginasLivro = parseInt(input('Páginas: '));
+        while (paginasLivro === 0) {
+            console.log('Páginas não pode ser 0.');
+            paginasLivro = parseInt(input('Páginas: '));
+        }
         const seLido = input('Lido (s/n): ').toLowerCase() === 's' ? 'LIDO' : 'PENDENTE';
-        const avaliacao = parseInt(input('Avaliação do Livro: '));
+        let avaliacao: number = 0;
+        if (seLido === 'LIDO') {
+            let inputAvaliacao: string;
+            do {
+                inputAvaliacao = input('Avaliação do Livro (1-5): ');
+                avaliacao = parseInt(inputAvaliacao);
+                if (avaliacao !== 1 && avaliacao !== 2 && avaliacao !== 3 && avaliacao !== 4 && avaliacao !== 5) {
+                    console.log('Avaliação deve ser um número entre 1 e 5.');
+                }
+            } while (avaliacao !== 1 && avaliacao !== 2 && avaliacao !== 3 && avaliacao !== 4 && avaliacao !== 5);
+        }
 
         titulos.push(nome);
         autores.push(autor);
@@ -37,7 +52,7 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         console.log("Livro Adicionado com Sucesso!");
     }
 
-    function removerLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
+    function removerLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) : void{
         console.log("Digite o título a ser removido: ");
 
         const remover = input('Título: ')
@@ -56,32 +71,57 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         }
     }
 
-    function buscarPorTitulo(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
-        console.log("Digite o título do livro:")
-        const buscaPor = input("Título: ")
-
+    function buscarPorTitulo(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[], termo: string): number[] {
+        console.log(`Livros que contêm o termo "${termo}":`)
+        const indices: number[] = [];
         for (let i = 0; i < titulos.length; i++) {
-            if (titulos[i]?.includes(buscaPor)) {
-                console.log(`${titulos[i]} - ${autores[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - Avaliação: ${avaliacoes[i]}`)
-                return
+            if (titulos[i]?.toLowerCase().includes(termo.toLowerCase())) {
+                const avaliacaoStr = lido[i] === 'LIDO' ? `Avaliação: ${avaliacoes[i]}` : 'Avaliação: N/A';
+                console.log(`Índice ${i + 1}: ${titulos[i]} - ${autores[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - ${avaliacaoStr}`)
+                indices.push(i);
             }
         }
+        if (indices.length === 0) {
+            console.log("Nenhum livro encontrado com esse termo.")
+        }
+        return indices;
     }
 
     function listarPorAutor(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
         console.log("Digite o nome do autor:")
         const nomeAutor = input("Autor: ")
         
-        const livrosDoAutor = autores.map((autor, indice) => ({ autor, indice }))
+        const livrosDoAutor = autores.map((autor, indice) => ({autor, indice}))
             .filter(item => item.autor.includes(nomeAutor))
         
         if (livrosDoAutor.length > 0) {
             livrosDoAutor.forEach(item => {
                 const i = item.indice
-                console.log(`${titulos[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - Avaliação: ${avaliacoes[i]}`)
+                const avaliacaoStr = lido[i] === 'LIDO' ? `Avaliação: ${avaliacoes[i]}` : 'Avaliação: N/A';
+                console.log(`${titulos[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - ${avaliacaoStr}`)
             })
         } else {
             console.log("Autor não encontrado")
+        }
+    }
+
+    function listarLidos(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
+        console.log("===LIVROS LIDOS===")
+        for (let i = 0; i < titulos.length; i++) {
+            if (lido[i] === "LIDO") {
+                const avaliacaoStr = `Avaliação: ${avaliacoes[i]}`;
+                console.log(`${i + 1} ${titulos[i]} - ${autores[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - ${avaliacaoStr}`)
+            }
+        }
+    }
+
+    function listarPendentes(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) {
+        console.log("===LIVROS PENDENTES===")
+        for (let i = 0; i < titulos.length; i++) {
+            if (lido[i] === "PENDENTE") {
+                const avaliacaoStr = `Avaliação: ${avaliacoes[i]}`;
+                console.log(`${i + 1} ${titulos[i]} - ${autores[i]} (${anos[i]}) - ${paginas[i]} páginas - ${lido[i]} - ${avaliacaoStr}`)
+            }
         }
     }
 
@@ -93,6 +133,8 @@ function menu(): void {
         console.log("3: Remover livro")
         console.log("4: Buscar livros")
         console.log("5: Buscar por autor")
+        console.log("6: Listar livros lidos")
+        console.log("7: Listar livros pendentes")
         console.log("0: Sair")
 
         const escolha = input("Opção: ")
@@ -108,10 +150,17 @@ function menu(): void {
                 removerLivro(titulos, autores, anos, paginas, lido, avaliacoes);
                 break;
             case "4":
-                buscarPorTitulo(titulos, autores, anos, paginas, lido, avaliacoes);
+                const termoBusca = input("Digite o termo para buscar nos títulos: ");
+                buscarPorTitulo(titulos, autores, anos, paginas, lido, avaliacoes, termoBusca);
                 break;
             case "5":
                 listarPorAutor(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "6":
+                listarLidos(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "7":
+                listarPendentes(titulos, autores, anos, paginas, lido, avaliacoes);
                 break;
             case "0":
                 console.log("Saindo...");

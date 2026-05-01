@@ -20,3 +20,13 @@ Menu interativo implementado
 
 Nessa etapa fiz alguns testes para implementar as funções de adicionar e remover livros. Diante disso precisei adicionar um menu interativo para conseguir fazer a chamada das funções que o usuário desejar.
 
+Etapa 4:
+
+Funções de busca e filtros implementadas
+
+Usei map e filter para implementar a busca por autores e usei includes em string para conseguir pesquisar por títulos dos livros
+
+Etapa 5: Funções listarLidos e listarPendentes adicionada
+
+Usando uma estrutura de repetição e estruturas condicionais (if), adicionei as funções de listar livros lidos e pendentes.
+Também troquei a estrutura condicional do menu de if para switch. Sendo mais versátil e fácil de alterar. Também alterei o sistema de avaliações e limitei as avaliações para um valor de 1 até 5 usando o if
