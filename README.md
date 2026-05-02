@@ -40,3 +40,6 @@ Etapa 6:
 
 Nesta etapa, as funções da seção ESTÁTISTICA foram implementadas. Essas funções mostram informações como total de páginas lidas, livro com a maior avaliação, média de avaliação e o percentual de livros lidos, usando filter, reduce e toFixed. No menu decidi implementar todas essas funções em apenas um case para que o usuário não tenha muitas opções de menu ocupando o terminal.
 
+Etapa 7:
+
+Usando estruturas de condição (if), e estruturas de repetição (for), criei a função exibirPorDecada, onde o array anos é verificado e usando o Math.floor para calcular o resultado e mostrar os livros de cada década.

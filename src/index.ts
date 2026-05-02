@@ -191,6 +191,33 @@ function adicionarLivro(titulos: string[], autores: string[], anos: number[], pa
         console.log(`Total de páginas lidas: ${total}`);
 }
 
+   function exibirPorDecada(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+    console.log("===POR DÉCADA===");
+
+    const decadas: { [key: number]: string[] } = {};
+
+    for (let i = 0; i < anos.length; i++) {
+        const ano = anos[i]!;
+        const decada = Math.floor(ano / 10) * 10;
+
+        if (!decadas[decada]) {
+            decadas[decada] = [];
+        }
+
+        decadas[decada]!.push(titulos[i]!);
+    }
+
+    for (const decada in decadas) {
+        console.log(`${decada}s:`);
+
+        const livros = decadas[decada]!;
+
+        for (let i = 0; i < livros.length; i++) {
+            console.log(`- ${livros[i]}`);
+        }
+    }
+}
+
 function menu(): void {
     while (true) {
         console.log("Escolha uma opção abaixo: ")
@@ -205,6 +232,8 @@ function menu(): void {
         console.log("9: Total de livros lidos")
         console.log("10: Marcar como lido")
         console.log("11: Estátisticas")
+        console.log("12: Filtrar por Décadas")
+        console.log("0: Sair")
 
         const escolha = input("Opção: ")
 
@@ -246,6 +275,9 @@ function menu(): void {
                 mediaAvaliacoes(titulos, autores, anos, paginas, lido, avaliacoes);
                 livroMaiorAvaliacao(titulos, autores, anos, paginas, lido, avaliacoes);
                 totalPaginasLidas(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "12":
+                exibirPorDecada(titulos, autores, anos, paginas, lido, avaliacoes);
                 break;
             case "0":
                 console.log("Saindo...");
