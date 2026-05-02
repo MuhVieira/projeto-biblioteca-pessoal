@@ -289,3 +289,29 @@ function menu(): void {
 }
 
 menu();
+
+console.log("===DEMONSTRAÇÃO FINAL===");
+
+exibirBiblioteca(titulos, autores, anos, paginas, lido, avaliacoes);
+
+console.log("---Adicionando livro---");
+titulos.push("Novo Livro");
+autores.push("Autor Teste");
+anos.push(2024);
+paginas.push(200);
+lido.push("PENDENTE");
+avaliacoes.push(0);
+
+exibirBiblioteca(titulos, autores, anos, paginas, lido, avaliacoes);
+
+console.log("---Busca por título---");
+buscarPorTitulo(titulos, autores, anos, paginas, lido, avaliacoes, "harry");
+
+console.log("---Estatísticas---");
+totalLivros(titulos, autores, anos, paginas, lido, avaliacoes);
+percentualLidos(titulos, autores, anos, paginas, lido, avaliacoes);
+mediaAvaliacoes(titulos, autores, anos, paginas, lido, avaliacoes);
+livroMaiorAvaliacao(titulos, autores, anos, paginas, lido, avaliacoes);
+totalPaginasLidas(titulos, autores, anos, paginas, lido, avaliacoes);
+
+exibirPorDecada(titulos, autores, anos, paginas, lido, avaliacoes);

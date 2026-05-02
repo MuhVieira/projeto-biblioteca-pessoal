@@ -1,4 +1,11 @@
-Murilo Rezende Vieira  - 2º Sem ADS
+*Murilo Rezende Vieira  - 2º Sem ADS*
+
+*Instruções de Uso*
+
+-Digite "npm run dev" no terminal.
+-Escolha uma das opções do menu interativo para manipular sua biblioteca pessoal.
+-Para visualizar a demo com todas as funções utilizadas no projeto, deixe a função menu comentada e use o "npm run dev" novamente.
+
 
 Etapa 1:
 
@@ -43,3 +50,16 @@ Nesta etapa, as funções da seção ESTÁTISTICA foram implementadas. Essas fun
 Etapa 7:
 
 Usando estruturas de condição (if), e estruturas de repetição (for), criei a função exibirPorDecada, onde o array anos é verificado e usando o Math.floor para calcular o resultado e mostrar os livros de cada década.
+
+Etapa 8:
+
+Demonstração final com todas as funções que foram usadas durante o desenvolvimento do projeto. Ele exercita todas as funções em sequência para uma melhor visualização geral do projeto.
+
+*Considerações Finais*
+
+Durante todo o desenvolvimento deste projeto, melhorei muito o uso de funções e manipulação de arrays no geral, fazendo uso de diversos comandos para manipulá-las como desejar. Tive a chance de melhorar meu racíocinio lógico para conseguir fazer todas as funções e pensar em como entregar o resultado esperado.
+
+*Pontos de Atenção*
+
+-Melhorar o racíocinio lógico com mais treinos e práticas;
+-Entender melhor a sintaxe da linguagem.
