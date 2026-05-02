@@ -11,7 +11,7 @@ const autores: string [] = ["J.K. Rowling", "Rick Riordan", "J.R.R Tolkien", "Ja
 const anos: number [] = [1997, 2005, 1954, 2018, 2012]
 const paginas: number [] = [224, 384, 1216, 320, 368]
 const lido: string [] = ["LIDO", "LIDO", "PENDENTE", "LIDO", "PENDENTE"]
-const avaliacoes: number [] = [5, 5, 3, 4, 1]
+const avaliacoes: number [] = [5, 5, 0, 4, 0]
 
 function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]): void {
     console.log("===MINHA BIBLIOTECA===")
@@ -20,37 +20,39 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         console.log(`${indice + 1} ${titulo} - ${autores[indice]} (${anos[indice]}) - ${paginas[indice]} páginas - ${lido[indice]} - ${avaliacaoStr}`)
     })}
 
-    function adicionarLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]): void {
-        const nome = input('Título do Livro: ');
-        const autor = input('Autor: ');
-        const ano = parseInt(input('Ano: '));
-        let paginasLivro = parseInt(input('Páginas: '));
-        while (paginasLivro === 0) {
-            console.log('Páginas não pode ser 0.');
-            paginasLivro = parseInt(input('Páginas: '));
-        }
-        const seLido = input('Lido (s/n): ').toLowerCase() === 's' ? 'LIDO' : 'PENDENTE';
-        let avaliacao: number = 0;
-        if (seLido === 'LIDO') {
-            let inputAvaliacao: string;
-            do {
-                inputAvaliacao = input('Avaliação do Livro (1-5): ');
-                avaliacao = parseInt(inputAvaliacao);
-                if (avaliacao !== 1 && avaliacao !== 2 && avaliacao !== 3 && avaliacao !== 4 && avaliacao !== 5) {
-                    console.log('Avaliação deve ser um número entre 1 e 5.');
-                }
-            } while (avaliacao !== 1 && avaliacao !== 2 && avaliacao !== 3 && avaliacao !== 4 && avaliacao !== 5);
-        }
+function adicionarLivro(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+    const nome = input('Título do Livro: ');
+    const autor = input('Autor: ');
+    const ano = parseInt(input('Ano: '));
+    const paginasLivro = parseInt(input('Páginas: '));
 
-        titulos.push(nome);
-        autores.push(autor);
-        anos.push(ano);
-        paginas.push(paginasLivro);
-        lido.push(seLido);
-        avaliacoes.push(avaliacao);
-
-        console.log("Livro Adicionado com Sucesso!");
+    if (ano <= 0 || paginasLivro <= 0) {
+        console.log("Dados inválidos!");
+        return;
     }
+
+    const seLido = input('Lido (s/n): ').toLowerCase() === 's' ? 'LIDO' : 'PENDENTE';
+
+    let avaliacao = 0;
+
+    if (seLido === 'LIDO') {
+        avaliacao = parseInt(input('Avaliação (1-5): '));
+
+        if (avaliacao < 1 || avaliacao > 5) {
+            console.log("Avaliação inválida!");
+            return;
+        }
+    }
+
+    titulos.push(nome);
+    autores.push(autor);
+    anos.push(ano);
+    paginas.push(paginasLivro);
+    lido.push(seLido);
+    avaliacoes.push(avaliacao);
+
+    console.log("Livro adicionado com sucesso!");
+}
 
     function removerLivro(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) : void{
         console.log("Digite o título a ser removido: ");
@@ -131,28 +133,62 @@ function exibirBiblioteca(titulos: string[], autores: string[], anos: number[], 
         return titulos.length;
     }
 
-    function marcarComoLido(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
-    const titulo = input("Digite o título do livro: ");
-    const indice = titulos.indexOf(titulo);
-
-    if (indice === -1) {
-        console.log("Livro não encontrado!");
-        return;
+    function totalLidos(titulos: string[], autores: string[], anos: number[], paginas:number[], lido: string[], avaliacoes: number[]) : number {
+        const total = titulos.length
+        console.log(`Total de livros lidos: ${total}`)
+         return lido.filter(status => status === "LIDO").length;
     }
+    
+    function marcarComoLido(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+        const titulo = input("Digite o título do livro: ");
+        const indice = titulos.indexOf(titulo);
 
-    let avaliacao: number;
+            if (indice === -1) {
+            console.log("Livro não encontrado!");
+            return;
+            }
 
-    do {
+        let avaliacao: number;
+
+        do {
         avaliacao = parseInt(input("Digite a avaliação (1 a 5): "));
-        if (avaliacao < 1 || avaliacao > 5) {
-            console.log("Avaliação inválida!");
-        }
-    } while (avaliacao < 1 || avaliacao > 5);
+            if (avaliacao < 1 || avaliacao > 5) {
+                console.log("Avaliação inválida!");
+            }
+            } while (avaliacao < 1 || avaliacao > 5);
+                lido[indice] = "LIDO";
+                avaliacoes[indice] = avaliacao;
 
-    lido[indice] = "LIDO";
-    avaliacoes[indice] = avaliacao;
+            console.log("Livro marcado como lido!");
+}
 
-    console.log("Livro marcado como lido!");
+    function percentualLidos(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+        const total = lido.length;
+        const lidos = lido.filter(status => status === "LIDO").length;
+        const percentual = total === 0 ? 0 : (lidos / total) * 100;
+
+        console.log(`Percentual de livros lidos: ${percentual.toFixed(2)}%`);
+}
+
+    function mediaAvaliacoes(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+        const notas = avaliacoes.filter((_, i) => lido[i] === "LIDO");
+        const soma = notas.reduce((acc, nota) => acc + nota, 0);
+        const media = notas.length === 0 ? 0 : soma / notas.length;
+
+        console.log(`Média das avaliações: ${media.toFixed(2)}`);
+}
+
+    function livroMaiorAvaliacao(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], valiacoes: number[]): void {
+        const indiceMaior = avaliacoes.reduce((maiorIndice, nota, i, arr) => {
+        return nota > arr[maiorIndice]! ? i : maiorIndice;
+        }, 0);
+
+        console.log(`Livro com maior avaliação: ${titulos[indiceMaior]}`);
+}
+
+    function totalPaginasLidas(titulos: string[], autores: string[], anos: number[], paginas: number[], lido: string[], avaliacoes: number[]): void {
+        const total = paginas.filter((_, i) => lido[i] === "LIDO").reduce((acc, p) => acc + p, 0);
+        console.log(`Total de páginas lidas: ${total}`);
 }
 
 function menu(): void {
@@ -166,8 +202,9 @@ function menu(): void {
         console.log("6: Listar livros lidos")
         console.log("7: Listar livros pendentes")
         console.log("8: Total de livros")
-        console.log("9: Marcar como lido")
-        console.log("0: Sair")
+        console.log("9: Total de livros lidos")
+        console.log("10: Marcar como lido")
+        console.log("11: Estátisticas")
 
         const escolha = input("Opção: ")
 
@@ -198,7 +235,17 @@ function menu(): void {
                 totalLivros(titulos, autores, anos, paginas, lido, avaliacoes);
                 break;
             case "9":
+                totalLidos(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "10":
                 marcarComoLido(titulos, autores, anos, paginas, lido, avaliacoes);
+                break;
+            case "11":
+                console.log("===ESTATÍSTICAS===")
+                percentualLidos(titulos, autores, anos, paginas, lido, avaliacoes);
+                mediaAvaliacoes(titulos, autores, anos, paginas, lido, avaliacoes);
+                livroMaiorAvaliacao(titulos, autores, anos, paginas, lido, avaliacoes);
+                totalPaginasLidas(titulos, autores, anos, paginas, lido, avaliacoes);
                 break;
             case "0":
                 console.log("Saindo...");
